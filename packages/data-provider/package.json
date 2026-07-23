@@ -1,5 +1,5 @@
 {
-  "name": "Helmies Studio-data-provider",
+  "name": "librechat-data-provider",
   "version": "0.8.509",
   "description": "data services for Helmies Studio apps",
   "main": "dist/index.js",

@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { Constants } from 'Helmies Studio-data-provider';
-import type { TStartupConfig } from 'Helmies Studio-data-provider';
+import { Constants } from 'librechat-data-provider';
+import type { TStartupConfig } from 'librechat-data-provider';
 import CopyButton from '~/components/Messages/Content/CopyButton';
 import { useGetStartupConfig } from '~/data-provider';
 import { useLocalize } from '~/hooks';

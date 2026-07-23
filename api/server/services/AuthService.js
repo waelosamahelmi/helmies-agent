@@ -6,8 +6,8 @@ const {
   getTenantId,
   DEFAULT_SESSION_EXPIRY,
   DEFAULT_REFRESH_TOKEN_EXPIRY,
-} = require('@Helmies Studio/data-schemas');
-const { ErrorTypes, SystemRoles, errorsToString } = require('Helmies Studio-data-provider');
+} = require('@librechat/data-schemas');
+const { ErrorTypes, SystemRoles, errorsToString } = require('librechat-data-provider');
 const {
   math,
   isEnabled,
@@ -19,7 +19,7 @@ const {
   isEmailDomainAllowed,
   shouldUseSecureCookie,
   resolveAppConfigForUser,
-} = require('@Helmies Studio/api');
+} = require('@librechat/api');
 const {
   findUser,
   findToken,
@@ -559,7 +559,7 @@ const resetPassword = async (userId, token, password) => {
 /**
  * Reads the previously issued CloudFront cookie scope used for stale cookie cleanup.
  * @param {ServerRequest | null} [req=null]
- * @returns {import('@Helmies Studio/api').CloudFrontCookieScope | null}
+ * @returns {import('@librechat/api').CloudFrontCookieScope | null}
  */
 const getPreviousCloudFrontScope = (req) =>
   parseCloudFrontCookieScope(req?.cookies?.[CLOUDFRONT_SCOPE_COOKIE]);
@@ -590,7 +590,7 @@ const shouldLogCloudFrontAuthCookieSkip = (reason) => reason !== 'cloudfront_dis
  * @param {ServerRequest | null} req
  * @param {ServerResponse} res
  * @param {Partial<IUser> | null} user
- * @param {import('@Helmies Studio/api').CloudFrontCookieScope & { orgId?: string }} [options={}]
+ * @param {import('@librechat/api').CloudFrontCookieScope & { orgId?: string }} [options={}]
  * @returns {boolean}
  */
 const setCloudFrontAuthCookies = (req, res, user, options = {}) => {

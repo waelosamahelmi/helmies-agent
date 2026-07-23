@@ -9,9 +9,9 @@ const {
   sanitizeModelSpecs,
   excludeHiddenModelSpecs,
   isFileSnapshotEnabled,
-} = require('@Helmies Studio/api');
-const { EModelEndpoint, defaultSocialLogins } = require('Helmies Studio-data-provider');
-const { logger, getTenantId, SystemCapabilities } = require('@Helmies Studio/data-schemas');
+} = require('@librechat/api');
+const { EModelEndpoint, defaultSocialLogins } = require('librechat-data-provider');
+const { logger, getTenantId, SystemCapabilities } = require('@librechat/data-schemas');
 const { hasCapability } = require('~/server/middleware/roles/capabilities');
 const { getLdapConfig } = require('~/server/services/Config/ldap');
 const { getRumConfig } = require('~/server/services/Config/rum');

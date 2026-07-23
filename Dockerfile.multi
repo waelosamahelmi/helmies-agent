@@ -37,12 +37,12 @@ ARG NPM_CI_TIMEOUT_SECONDS=1500
 ARG NPM_CI_ATTEMPTS=2
 WORKDIR /app
 RUN attempt=1; \
-    until timeout "$NPM_CI_TIMEOUT_SECONDS" npm ci; do \
+    until timeout "$NPM_CI_TIMEOUT_SECONDS" npm install --legacy-peer-deps; do \
       status=$?; \
       if [ "$attempt" -ge "$NPM_CI_ATTEMPTS" ]; then \
         exit "$status"; \
       fi; \
-      echo "npm ci failed with exit code $status; retrying attempt $((attempt + 1))/$NPM_CI_ATTEMPTS"; \
+      echo "npm install --legacy-peer-deps failed with exit code $status; retrying attempt $((attempt + 1))/$NPM_CI_ATTEMPTS"; \
       attempt=$((attempt + 1)); \
       npm cache clean --force || true; \
       sleep 10; \
@@ -97,12 +97,12 @@ RUN uv --version
 WORKDIR /app
 # Install only production deps
 RUN attempt=1; \
-    until timeout "$NPM_CI_TIMEOUT_SECONDS" npm ci --omit=dev; do \
+    until timeout "$NPM_CI_TIMEOUT_SECONDS" npm install --legacy-peer-deps --omit=dev; do \
       status=$?; \
       if [ "$attempt" -ge "$NPM_CI_ATTEMPTS" ]; then \
         exit "$status"; \
       fi; \
-      echo "npm ci --omit=dev failed with exit code $status; retrying attempt $((attempt + 1))/$NPM_CI_ATTEMPTS"; \
+      echo "npm install --legacy-peer-deps --omit=dev failed with exit code $status; retrying attempt $((attempt + 1))/$NPM_CI_ATTEMPTS"; \
       attempt=$((attempt + 1)); \
       npm cache clean --force || true; \
       sleep 10; \
