@@ -29,16 +29,12 @@ import DeleteAccount from '../SettingsTabs/Account/DeleteAccount';
 import { ForkSettings } from '../SettingsTabs/Chat/ForkSettings';
 import ChatDirection from '../SettingsTabs/Chat/ChatDirection';
 import { DeleteCache } from '../SettingsTabs/Data/DeleteCache';
-import { RevokeKeys } from '../SettingsTabs/Data/RevokeKeys';
 import { ClearChats } from '../SettingsTabs/Data/ClearChats';
 import { TokenCredits, AutoRefill } from './BillingControls';
 import SharedLinks from '../SettingsTabs/Data/SharedLinks';
 import { showThinkingAtom } from '~/store/showThinking';
-import ProviderKeys from '../SettingsTabs/ProviderKeys';
 import Avatar from '../SettingsTabs/Account/Avatar';
 import About from '../SettingsTabs/About/About';
-import ApiKeys from '../SettingsTabs/ApiKeys';
-import MemoryToggle from './MemoryToggle';
 import { TTSEndpoints } from '~/common';
 import store from '~/store';
 
@@ -289,6 +285,7 @@ export const registry: SettingEntry[] = [
     tab: CHAT,
     section: 'conversations',
     labelKey: 'com_nav_modular_chat',
+    show: (ctx) => ctx.hasMultiConvo,
     Component: toggleControl({
       stateAtom: store.modularChat,
       localizationKey: 'com_nav_modular_chat',
@@ -300,6 +297,7 @@ export const registry: SettingEntry[] = [
     tab: CHAT,
     section: 'conversations',
     labelKey: 'com_nav_default_temporary_chat',
+    show: (ctx) => ctx.hasTemporaryChat,
     Component: toggleControl({
       stateAtom: store.defaultTemporaryChat,
       localizationKey: 'com_nav_default_temporary_chat',
@@ -322,6 +320,7 @@ export const registry: SettingEntry[] = [
     section: 'prompts',
     labelKey: 'com_nav_advanced_prompts',
     keywords: ['prompt'],
+    show: (ctx) => ctx.hasPrompts,
     Component: AdvancedPrompts,
   },
   {
@@ -329,6 +328,7 @@ export const registry: SettingEntry[] = [
     tab: CHAT,
     section: 'prompts',
     labelKey: 'com_nav_always_make_prod',
+    show: (ctx) => ctx.hasPrompts,
     Component: toggleControl({
       stateAtom: store.alwaysMakeProd,
       localizationKey: 'com_nav_always_make_prod',
@@ -340,6 +340,7 @@ export const registry: SettingEntry[] = [
     tab: CHAT,
     section: 'prompts',
     labelKey: 'com_nav_auto_send_prompts',
+    show: (ctx) => ctx.hasPrompts,
     Component: toggleControl({
       stateAtom: store.autoSendPrompts,
       localizationKey: 'com_nav_auto_send_prompts',
@@ -450,16 +451,6 @@ export const registry: SettingEntry[] = [
     Component: CacheTTSSwitch,
   },
 
-  // Data controls · Memory
-  {
-    id: 'referenceSavedMemories',
-    tab: DATA,
-    section: 'memory',
-    labelKey: 'com_ui_reference_saved_memories',
-    keywords: ['memory', 'personalization'],
-    show: (ctx) => ctx.hasMemoryOptOut,
-    Component: MemoryToggle,
-  },
   // Data controls · Your data
   {
     id: 'importConversations',
@@ -473,32 +464,8 @@ export const registry: SettingEntry[] = [
     tab: DATA,
     section: 'data',
     labelKey: 'com_ui_settings_label_shared_links',
+    show: (ctx) => ctx.hasSharedLinks,
     Component: SharedLinks,
-  },
-  // Data controls · API keys
-  {
-    id: 'providerApiKeys',
-    tab: DATA,
-    section: 'apiKeys',
-    labelKey: 'com_ui_settings_label_provider_api_keys',
-    keywords: ['api', 'key', 'keys', 'provider', 'endpoint', 'credentials'],
-    show: (ctx) => ctx.hasUserProvidedEndpoints,
-    Component: ProviderKeys,
-  },
-  {
-    id: 'agentApiKeys',
-    tab: DATA,
-    section: 'apiKeys',
-    labelKey: 'com_ui_settings_label_agent_api_keys',
-    show: (ctx) => ctx.hasRemoteAgents,
-    Component: ApiKeys,
-  },
-  {
-    id: 'revokeKeys',
-    tab: DATA,
-    section: 'apiKeys',
-    labelKey: 'com_ui_settings_label_revoke_keys',
-    Component: RevokeKeys,
   },
   // Data controls · Danger zone
   {

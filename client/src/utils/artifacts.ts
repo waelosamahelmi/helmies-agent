@@ -16,9 +16,9 @@ const artifactFilename = {
    * `index.html` document (head + body) and ships it via `attachment.text`.
    * The Sandpack `static` template loads it as-is. See
    * `packages/api/src/files/documents/html.ts`. */
-  'application/vnd.librechat.docx-preview': 'index.html',
-  'application/vnd.librechat.spreadsheet-preview': 'index.html',
-  'application/vnd.librechat.presentation-preview': 'index.html',
+  'application/vnd.Helmies Studio.docx-preview': 'index.html',
+  'application/vnd.Helmies Studio.spreadsheet-preview': 'index.html',
+  'application/vnd.Helmies Studio.presentation-preview': 'index.html',
   // mermaid and markdown types are handled separately in useArtifactProps.ts
   default: 'index.html',
   // 'css': 'css',
@@ -53,9 +53,9 @@ const artifactTemplate: Record<
   'text/plain': 'static',
   /* Office preview buckets ride the same static pipeline — the backend
    * already sanitized the HTML, so we just hand it to Sandpack. */
-  'application/vnd.librechat.docx-preview': 'static',
-  'application/vnd.librechat.spreadsheet-preview': 'static',
-  'application/vnd.librechat.presentation-preview': 'static',
+  'application/vnd.Helmies Studio.docx-preview': 'static',
+  'application/vnd.Helmies Studio.spreadsheet-preview': 'static',
+  'application/vnd.Helmies Studio.presentation-preview': 'static',
   default: 'static',
   // 'css': 'css',
   // 'javascript': 'js',
@@ -151,9 +151,9 @@ const dependenciesMap: Record<
   'text/plain': {},
   /* Office preview HTML is fully self-contained (CSS-only sheet tabs, no
    * JS), so no Sandpack-side packages are needed. */
-  'application/vnd.librechat.docx-preview': {},
-  'application/vnd.librechat.spreadsheet-preview': {},
-  'application/vnd.librechat.presentation-preview': {},
+  'application/vnd.Helmies Studio.docx-preview': {},
+  'application/vnd.Helmies Studio.spreadsheet-preview': {},
+  'application/vnd.Helmies Studio.presentation-preview': {},
   default: standardDependencies,
 };
 
@@ -290,13 +290,13 @@ export const TOOL_ARTIFACT_TYPES = {
   /* Office-format rich previews. The backend renders the binary file as a
    * complete sanitized HTML document and ships it via `attachment.text`;
    * the client routes these types through the Sandpack `static` template's
-   * `index.html` slot. The values are synthetic LibreChat-internal MIMEs
+   * `index.html` slot. The values are synthetic Helmies Studio-internal MIMEs
    * — they don't appear on disk or in HTTP headers, only on the artifact
    * object — so they can't collide with the canonical office MIMEs that
    * the routing maps key off of. */
-  DOCX: 'application/vnd.librechat.docx-preview',
-  SPREADSHEET: 'application/vnd.librechat.spreadsheet-preview',
-  PRESENTATION: 'application/vnd.librechat.presentation-preview',
+  DOCX: 'application/vnd.Helmies Studio.docx-preview',
+  SPREADSHEET: 'application/vnd.Helmies Studio.spreadsheet-preview',
+  PRESENTATION: 'application/vnd.Helmies Studio.presentation-preview',
 } as const;
 
 export type ToolArtifactType = (typeof TOOL_ARTIFACT_TYPES)[keyof typeof TOOL_ARTIFACT_TYPES];

@@ -1,4 +1,4 @@
-export const MESSAGE_CONTENT_LAYOUT_CHANGE_EVENT = 'librechat:message-content-layout-change';
+export const MESSAGE_CONTENT_LAYOUT_CHANGE_EVENT = 'Helmies Studio:message-content-layout-change';
 const MESSAGE_SCROLL_CONTAINER_SELECTOR = '.scrollbar-gutter-stable';
 const MESSAGE_LAYOUT_RECONCILE_DURATION_MS = 350;
 

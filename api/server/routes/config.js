@@ -139,7 +139,7 @@ function buildPostLoginPayload() {
       isBirthday() ||
       isEnabled(process.env.SHOW_BIRTHDAY_ICON) ||
       process.env.SHOW_BIRTHDAY_ICON === '',
-    helpAndFaqURL: process.env.HELP_AND_FAQ_URL || 'https://Helmies Studio.ai',
+    helpAndFaqURL: process.env.HELP_AND_FAQ_URL || 'https://studio.helmies.fi',
     sharedLinksEnabled,
     publicSharedLinksEnabled,
     openidReuseTokens,

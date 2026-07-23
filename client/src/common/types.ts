@@ -668,7 +668,7 @@ export type TThread = { id: string; createdAt: string };
 declare global {
   interface Window {
     google_tag_manager?: unknown;
-    __LIBRECHAT_CONFIG__?: {
+    __Helmies Studio_CONFIG__?: {
       enableQueryDevtools?: boolean;
     };
   }

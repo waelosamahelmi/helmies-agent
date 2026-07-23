@@ -25,6 +25,14 @@ export function useSettingsContext(): SettingsContextValue {
     permissionType: PermissionTypes.PROMPTS,
     permission: Permissions.USE,
   });
+  const hasSharedLinks = useHasAccess({
+    permissionType: PermissionTypes.SHARED_LINKS,
+    permission: Permissions.CREATE,
+  });
+  const hasTemporaryChat = useHasAccess({
+    permissionType: PermissionTypes.TEMPORARY_CHAT,
+    permission: Permissions.USE,
+  });
 
   const balanceEnabled = startupConfig?.balance?.enabled === true;
   const isLocalProvider = user?.provider === 'local';
@@ -34,6 +42,8 @@ export function useSettingsContext(): SettingsContextValue {
   const hasRemoteAgentsBool = hasRemoteAgents === true;
   const hasMultiConvoBool = hasMultiConvo === true;
   const hasPromptsBool = hasPrompts === true;
+  const hasSharedLinksBool = hasSharedLinks === true;
+  const hasTemporaryChatBool = hasTemporaryChat === true;
   const engineTTS = useRecoilValue<string>(store.engineTTS);
   const hasUserProvidedEndpoints = useProviderKeys().length > 0;
 
@@ -46,6 +56,8 @@ export function useSettingsContext(): SettingsContextValue {
       hasUserProvidedEndpoints,
       hasMultiConvo: hasMultiConvoBool,
       hasPrompts: hasPromptsBool,
+      hasSharedLinks: hasSharedLinksBool,
+      hasTemporaryChat: hasTemporaryChatBool,
       isLocalProvider,
       twoFactorEnabled,
       allowAccountDeletion,
@@ -60,6 +72,8 @@ export function useSettingsContext(): SettingsContextValue {
       hasUserProvidedEndpoints,
       hasMultiConvoBool,
       hasPromptsBool,
+      hasSharedLinksBool,
+      hasTemporaryChatBool,
       isLocalProvider,
       twoFactorEnabled,
       allowAccountDeletion,

@@ -24,7 +24,7 @@ function ModelSelectorContent() {
   const modelSelectorAriaKey = useShortcutAriaKey('openModelSelector');
 
   const {
-    // LibreChat
+    // Helmies Studio
     agentsMap,
     modelSpecs,
     mappedEndpoints,

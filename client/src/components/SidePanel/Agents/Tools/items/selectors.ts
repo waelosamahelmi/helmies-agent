@@ -69,7 +69,7 @@ export function mcpServerToken(serverName: string): string {
  * Server-wide wildcard token (`sys__all__sys_mcp_<serverName>`). Unlike the
  * UI-only `mcp_server` placeholder (skipped at runtime), `mcp_all` is resolved
  * by the backend into ALL of the server's tools at chat-turn time. Used for
- * request-scoped servers (runtime `{{LIBRECHAT_BODY_*}}` placeholders) whose
+ * request-scoped servers (runtime `{{Helmies Studio_BODY_*}}` placeholders) whose
  * tools cannot be enumerated outside a chat turn, so per-tool selection is
  * impossible and the server must be attached as a whole.
  */

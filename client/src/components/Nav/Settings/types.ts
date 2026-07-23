@@ -41,6 +41,8 @@ export interface SettingsContextValue {
   hasUserProvidedEndpoints: boolean;
   hasMultiConvo: boolean;
   hasPrompts: boolean;
+  hasSharedLinks: boolean;
+  hasTemporaryChat: boolean;
   isLocalProvider: boolean;
   twoFactorEnabled: boolean;
   allowAccountDeletion: boolean;
@@ -103,6 +105,7 @@ export const TABS: TabMeta[] = [
       { id: 'stt', labelKey: 'com_ui_settings_section_stt' },
       { id: 'tts', labelKey: 'com_ui_settings_section_tts' },
     ],
+    show: () => false,
   },
   {
     id: SettingsTabValues.DATA,

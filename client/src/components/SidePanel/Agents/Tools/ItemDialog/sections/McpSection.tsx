@@ -183,7 +183,7 @@ export default function McpSection({ item }: Props) {
    * connects, polling for OAuth), select them all — an effect because both
    * signals come from external systems, not from anything rendered here.
    *
-   * Request-scoped servers (runtime `{{LIBRECHAT_BODY_*}}` placeholders) defer
+   * Request-scoped servers (runtime `{{Helmies Studio_BODY_*}}` placeholders) defer
    * their connection to the next chat turn, so no tool list will ever arrive —
    * attach the whole server via the `mcp_all` wildcard instead; the backend
    * resolves it into the server's full tool set at turn time. Keying on the

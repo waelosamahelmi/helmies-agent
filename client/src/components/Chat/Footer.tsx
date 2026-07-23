@@ -41,7 +41,7 @@ function Footer({ className, startupConfig }: FooterProps) {
       ? config.customFooter
       : '[Helmies Studio ' +
         Constants.VERSION +
-        '](https://Helmies Studio.ai) - ' +
+        '](https://studio.helmies.fi) - ' +
         localize('com_ui_latest_footer')
   ).split('|');
 

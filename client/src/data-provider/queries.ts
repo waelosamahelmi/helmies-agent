@@ -184,7 +184,7 @@ export const useConversationTagsQuery = (
  */
 
 /**
- * Hook for getting available LibreChat tools (excludes MCP tools)
+ * Hook for getting available Helmies Studio tools (excludes MCP tools)
  * For MCP tools, use `useMCPToolsQuery` from mcp-queries.ts
  */
 export const useAvailableToolsQuery = <TData = t.TPlugin[]>(

@@ -1,5 +1,4 @@
 import { useState, memo, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
 import * as Menu from '@ariakit/react/menu';
 import { GearIcon, DropdownMenuSeparator, Avatar } from '@librechat/client';
 import {
@@ -7,7 +6,6 @@ import {
   ChevronRight,
   CircleHelp,
   FileText,
-  Keyboard,
   LifeBuoy,
   LogOut,
   Scale,
@@ -19,18 +17,15 @@ import { useGetStartupConfig, useGetUserBalance } from '~/data-provider';
 import { useAuthContext } from '~/hooks/AuthContext';
 import { useLocalize } from '~/hooks';
 import Settings from './Settings';
-import store from '~/store';
 
 function HelpSubmenu({
   helpAndFaqURL,
   termsOfServiceURL,
   privacyPolicyURL,
-  onShowShortcuts,
 }: {
   helpAndFaqURL?: string;
   termsOfServiceURL?: string;
   privacyPolicyURL?: string;
-  onShowShortcuts: () => void;
 }) {
   const localize = useLocalize();
   const hasHelpFaq = !!helpAndFaqURL && helpAndFaqURL !== '/';
@@ -64,10 +59,6 @@ function HelpSubmenu({
             {localize('com_nav_help_faq')}
           </Menu.MenuItem>
         )}
-        <Menu.MenuItem onClick={onShowShortcuts} className="select-item text-sm">
-          <Keyboard className="icon-md" aria-hidden="true" />
-          {localize('com_shortcut_keyboard_shortcuts')}
-        </Menu.MenuItem>
         {showLegalDivider && (hasTos || hasPrivacy) && <DropdownMenuSeparator />}
         {hasTos && (
           <Menu.MenuItem
@@ -101,7 +92,6 @@ function AccountSettings({ collapsed = false }: { collapsed?: boolean }) {
   });
   const [showSettings, setShowSettings] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
-  const setShowShortcutsDialog = useSetRecoilState(store.showShortcutsDialog);
   const [showArchived, setShowArchived] = useState(false);
   const accountSettingsButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -158,7 +148,6 @@ function AccountSettings({ collapsed = false }: { collapsed?: boolean }) {
           helpAndFaqURL={startupConfig?.helpAndFaqURL}
           termsOfServiceURL={startupConfig?.interface?.termsOfService?.externalUrl}
           privacyPolicyURL={startupConfig?.interface?.privacyPolicy?.externalUrl}
-          onShowShortcuts={() => setShowShortcutsDialog(true)}
         />
         <Menu.MenuItem onClick={() => setShowFiles(true)} className="select-item text-sm">
           <FileText className="icon-md" aria-hidden="true" />

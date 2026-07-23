@@ -7,9 +7,9 @@ import { buildShareLinkUrl } from '../share';
 
 describe('buildShareLinkUrl', () => {
   it('includes the base path for subdirectory deployments', () => {
-    (apiBaseUrl as jest.Mock).mockReturnValue('/librechat');
+    (apiBaseUrl as jest.Mock).mockReturnValue('/Helmies Studio');
     expect(buildShareLinkUrl('reW8SsFGQEH1b1uzSHe4I')).toBe(
-      'http://localhost:3080/librechat/share/reW8SsFGQEH1b1uzSHe4I',
+      'http://localhost:3080/Helmies Studio/share/reW8SsFGQEH1b1uzSHe4I',
     );
   });
 

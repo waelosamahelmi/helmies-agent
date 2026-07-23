@@ -39,17 +39,7 @@ RUN \
     npm config set fetch-retry-maxtimeout 600000 ; \
     npm config set fetch-retries 5 ; \
     npm config set fetch-retry-mintimeout 15000 ; \
-    attempt=1 ; \
-    until timeout "$NPM_CI_TIMEOUT_SECONDS" npm ci --no-audit ; do \
-        status=$? ; \
-        if [ "$attempt" -ge "$NPM_CI_ATTEMPTS" ]; then \
-            exit "$status" ; \
-        fi ; \
-        echo "npm ci --no-audit failed with exit code $status; retrying attempt $((attempt + 1))/$NPM_CI_ATTEMPTS" ; \
-        attempt=$((attempt + 1)) ; \
-        npm cache clean --force || true ; \
-        sleep 10 ; \
-    done
+    npm install --no-audit --legacy-peer-deps --include=optional
 
 COPY --chown=node:node . .
 
