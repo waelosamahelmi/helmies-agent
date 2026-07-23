@@ -137,11 +137,11 @@ export default defineConfig(({ command }) => ({
       },
       includeAssets: [],
       manifest: {
-        name: 'LibreChat',
-        short_name: 'LibreChat',
+        name: 'Helmies Studio',
+        short_name: 'Helmies Studio',
         display: 'standalone',
-        background_color: '#000000',
-        theme_color: '#009688',
+        background_color: '#0A0A0F',
+        theme_color: '#FF1B6B',
         icons: [
           {
             src: 'assets/favicon-32x32.png',

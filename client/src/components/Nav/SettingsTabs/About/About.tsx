@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { Constants } from 'librechat-data-provider';
-import type { TStartupConfig } from 'librechat-data-provider';
+import { Constants } from 'Helmies Studio-data-provider';
+import type { TStartupConfig } from 'Helmies Studio-data-provider';
 import CopyButton from '~/components/Messages/Content/CopyButton';
 import { useGetStartupConfig } from '~/data-provider';
 import { useLocalize } from '~/hooks';
@@ -27,7 +27,7 @@ function buildDiagnosticsBlob(
   buildInfo: TStartupConfig['buildInfo'] | undefined,
 ): string {
   const lines: string[] = [
-    `LibreChat version: ${version}`,
+    `Helmies Studio version: ${version}`,
     `Commit: ${buildInfo?.commit ?? UNKNOWN_PLACEHOLDER}`,
     `Branch: ${buildInfo?.branch ?? UNKNOWN_PLACEHOLDER}`,
     `Build date: ${formatBuildDate(buildInfo?.buildDate)}`,

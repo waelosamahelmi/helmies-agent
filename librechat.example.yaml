@@ -1,5 +1,5 @@
 # For more information, see the Configuration Guide:
-# https://www.librechat.ai/docs/configuration/librechat_yaml
+# https://www.Helmies Studio.ai/docs/configuration/Helmies Studio_yaml
 
 # Configuration version (required)
 version: 1.3.13
@@ -52,7 +52,7 @@ cache: true
 #   #   /r/{storageRegion}/t/{tenantId}/{basePath}/{userId}/{file} (non-inline files)
 #   # storageRegion defaults to AWS_REGION when omitted, but only affects new keys
 #   # when includeRegionInPath is true. Existing files are not moved automatically.
-#   # LibreChat does not configure CloudFront origins, Route53, or regional routing.
+#   # Helmies Studio does not configure CloudFront origins, Route53, or regional routing.
 #   storageRegion: "us-east-2"
 #   includeRegionInPath: false
 #   # Direct-download filename/content-type overrides require the CloudFront cache/origin
@@ -72,7 +72,7 @@ cache: true
 #     intervalMinutes: 60
 #     runOnStartup: true
 #     sources:
-#       - id: librechat-skills
+#       - id: Helmies Studio-skills
 #         owner: your-org
 #         repo: your-skills-repo
 #         ref: main
@@ -94,32 +94,32 @@ cache: true
 
 # Custom interface configuration
 interface:
-  customWelcome: 'Welcome to LibreChat! Enjoy your experience.'
+  customWelcome: 'Welcome to Helmies Studio! Enjoy your experience.'
   # Enable/disable file search as a chatarea selection (default: true)
   # Note: This setting does not disable the Agents File Search Capability.
   # To disable the Agents Capability, see the Agents Endpoint configuration instead.
   fileSearch: true
   # Privacy policy settings
   privacyPolicy:
-    externalUrl: 'https://librechat.ai/privacy-policy'
+    externalUrl: 'https://Helmies Studio.ai/privacy-policy'
     openNewTab: true
 
   # Terms of service
   termsOfService:
-    externalUrl: 'https://librechat.ai/tos'
+    externalUrl: 'https://Helmies Studio.ai/tos'
     openNewTab: true
     modalAcceptance: true
-    modalTitle: 'Terms of Service for LibreChat'
+    modalTitle: 'Terms of Service for Helmies Studio'
     modalContent: |
-      # Terms and Conditions for LibreChat
+      # Terms and Conditions for Helmies Studio
 
       *Effective Date: February 18, 2024*
 
-      Welcome to LibreChat, the informational website for the open-source AI chat platform, available at https://librechat.ai. These Terms of Service ("Terms") govern your use of our website and the services we offer. By accessing or using the Website, you agree to be bound by these Terms and our Privacy Policy, accessible at https://librechat.ai//privacy.
+      Welcome to Helmies Studio, the informational website for the open-source AI chat platform, available at https://Helmies Studio.ai. These Terms of Service ("Terms") govern your use of our website and the services we offer. By accessing or using the Website, you agree to be bound by these Terms and our Privacy Policy, accessible at https://Helmies Studio.ai//privacy.
 
       ## 1. Ownership
 
-      Upon purchasing a package from LibreChat, you are granted the right to download and use the code for accessing an admin panel for LibreChat. While you own the downloaded code, you are expressly prohibited from reselling, redistributing, or otherwise transferring the code to third parties without explicit permission from LibreChat.
+      Upon purchasing a package from Helmies Studio, you are granted the right to download and use the code for accessing an admin panel for Helmies Studio. While you own the downloaded code, you are expressly prohibited from reselling, redistributing, or otherwise transferring the code to third parties without explicit permission from Helmies Studio.
 
       ## 2. User Data
 
@@ -143,7 +143,7 @@ interface:
 
       ## 7. Contact Information
 
-      If you have any questions about these Terms, please contact us at contact@librechat.ai.
+      If you have any questions about these Terms, please contact us at contact@Helmies Studio.ai.
 
       By using the Website, you acknowledge that you have read these Terms of Service and agree to be bound by them.
 
@@ -208,9 +208,9 @@ interface:
   #     de-DE: 'Ich verstehe und möchte fortfahren' # You can narrow translation to regions like (de-DE or de-CH)
   #   subLabel:
   #     en: |
-  #       Librechat hasn't reviewed this MCP server. Attackers may attempt to steal your data or trick the model into taking unintended actions, including destroying data. <a href="https://google.de" target="_blank"><strong>Learn more.</strong></a>
+  #       Helmies Studio hasn't reviewed this MCP server. Attackers may attempt to steal your data or trick the model into taking unintended actions, including destroying data. <a href="https://google.de" target="_blank"><strong>Learn more.</strong></a>
   #     de: |
-  #       LibreChat hat diesen MCP-Server nicht überprüft. Angreifer könnten versuchen, Ihre Daten zu stehlen oder das Modell zu unbeabsichtigten Aktionen zu verleiten, einschließlich der Zerstörung von Daten. <a href="https://google.de" target="_blank"><strong>Mehr erfahren.</strong></a>
+  #       Helmies Studio hat diesen MCP-Server nicht überprüft. Angreifer könnten versuchen, Ihre Daten zu stehlen oder das Modell zu unbeabsichtigten Aktionen zu verleiten, einschließlich der Zerstörung von Daten. <a href="https://google.de" target="_blank"><strong>Mehr erfahren.</strong></a>
 
   # Temporary chat retention period in hours (default: 720, min: 1, max: 8760)
   # temporaryChatRetention: 1
@@ -293,7 +293,7 @@ registration:
 actions:
   allowedDomains:
     - 'swapi.dev'
-    - 'librechat.ai'
+    - 'Helmies Studio.ai'
     - 'google.com'
     # - 'http://10.225.26.25:7894'  # Internal IP with protocol/port (uncomment if needed)
   # `allowedAddresses` is an SSRF exemption list, NOT a strict whitelist.
@@ -378,8 +378,8 @@ actions:
 #     args:
 #       - -y
 #       - "@modelcontextprotocol/server-filesystem"
-#       - /home/user/LibreChat/
-#     iconPath: /home/user/LibreChat/client/public/assets/logo.svg
+#       - /home/user/Helmies Studio/
+#     iconPath: /home/user/Helmies Studio/client/public/assets/logo.svg
 #   mcp-obsidian:
 #     command: npx
 #     args:
@@ -432,17 +432,17 @@ endpoints:
   # (optional) Custom request headers for the built-in OpenAI / Google endpoints.
   # Forwarded on every request to the provider (or an AI gateway / reverse proxy
   # in front of it) while keeping provider-native request shaping intact. Values
-  # support env vars (${VAR}), user fields ({{LIBRECHAT_USER_*}}), and request-body
-  # fields ({{LIBRECHAT_BODY_CONVERSATIONID}}). Set the same `headers:` block under
+  # support env vars (${VAR}), user fields ({{Helmies Studio_USER_*}}), and request-body
+  # fields ({{Helmies Studio_BODY_CONVERSATIONID}}). Set the same `headers:` block under
   # `endpoints.all` to apply globally across endpoints (endpoint values win on key
   # collisions). NOTE: send metadata headers like these only behind a gateway that
   # consumes them — native provider APIs ignore unknown headers.
   # openAI:
   #   headers:
-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
+  #     cf-aig-metadata: '{"user_email":"{{Helmies Studio_USER_EMAIL}}","app":"Helmies Studio"}'
   # google:
   #   headers:
-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
+  #     cf-aig-metadata: '{"user_email":"{{Helmies Studio_USER_EMAIL}}","app":"Helmies Studio"}'
 
   # Anthropic endpoint configuration with Vertex AI support
   # Use this to run Anthropic Claude models through Google Cloud Vertex AI
@@ -455,8 +455,8 @@ endpoints:
   #   # Useful for correlating reverse-proxied requests by conversation, since an
   #   # unknown header is simply ignored by the native Anthropic API.
   #   headers:
-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
-  #     X-Conversation-Id: '{{LIBRECHAT_BODY_CONVERSATIONID}}'
+  #     cf-aig-metadata: '{"user_email":"{{Helmies Studio_USER_EMAIL}}","app":"Helmies Studio"}'
+  #     X-Conversation-Id: '{{Helmies Studio_BODY_CONVERSATIONID}}'
   #
   #   # Vertex AI Configuration - enables running Claude models via Google Cloud
   #   # This is similar to Azure OpenAI but for Anthropic models on Google Cloud
@@ -606,7 +606,7 @@ endpoints:
       apiKey: '${OPENROUTER_KEY}'
       baseURL: 'https://openrouter.ai/api/v1'
       headers:
-        x-librechat-body-parentmessageid: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+        x-Helmies Studio-body-parentmessageid: '{{Helmies Studio_BODY_PARENTMESSAGEID}}'
       models:
         default: ['meta-llama/llama-3-70b-instruct']
         fetch: true
@@ -623,7 +623,7 @@ endpoints:
       apiKey: '${HELICONE_KEY}'
       baseURL: 'https://ai-gateway.helicone.ai'
       headers:
-        x-librechat-body-parentmessageid: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+        x-Helmies Studio-body-parentmessageid: '{{Helmies Studio_BODY_PARENTMESSAGEID}}'
       models:
         default:
           ['gpt-4o-mini', 'claude-4.5-sonnet', 'llama-3.1-8b-instruct', 'gemini-2.5-flash-lite']
@@ -789,7 +789,7 @@ endpoints:
 #     maxHeight: 1900  # Maximum height for resized images (default: 1900)
 #     quality: 0.92  # JPEG quality for compression (0.0-1.0, default: 0.92)
 # # See the Custom Configuration Guide for more information on Assistants Config:
-# # https://www.librechat.ai/docs/configuration/librechat_yaml/object_structure/assistants_endpoint
+# # https://www.Helmies Studio.ai/docs/configuration/Helmies Studio_yaml/object_structure/assistants_endpoint
 
 # Web Search Configuration (optional)
 # webSearch:

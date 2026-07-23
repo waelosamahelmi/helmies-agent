@@ -353,7 +353,7 @@ const processCodeOutput = async ({
       url: `${baseURL}/download/${session_id}/${id}${downloadQuery}`,
       responseType: 'arraybuffer',
       headers: {
-        'User-Agent': 'LibreChat/1.0',
+        'User-Agent': 'HelmiesStudio/1.0',
         ...authHeaders,
       },
       httpAgent: codeServerHttpAgent,
@@ -775,7 +775,7 @@ async function getSessionInfo(ref, req) {
       method: 'get',
       url: `${baseURL}/sessions/${ref.storage_session_id}/objects/${ref.file_id}${query}`,
       headers: {
-        'User-Agent': 'LibreChat/1.0',
+        'User-Agent': 'HelmiesStudio/1.0',
         ...authHeaders,
       },
       httpAgent: codeServerHttpAgent,
@@ -1096,7 +1096,7 @@ async function readSandboxFile({ file_path, session_id, files, runtime_session_h
       data: postData,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'LibreChat/1.0',
+        'User-Agent': 'HelmiesStudio/1.0',
         ...authHeaders,
       },
       httpAgent: codeServerHttpAgent,
@@ -1302,7 +1302,7 @@ async function execSandboxImageChunk({
       data: postData,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'LibreChat/1.0',
+        'User-Agent': 'HelmiesStudio/1.0',
         ...authHeaders,
       },
       httpAgent: codeServerHttpAgent,
@@ -1419,7 +1419,7 @@ async function writeSandboxFile({
       data: postData,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'LibreChat/1.0',
+        'User-Agent': 'HelmiesStudio/1.0',
         ...authHeaders,
       },
       httpAgent: codeServerHttpAgent,

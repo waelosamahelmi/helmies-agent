@@ -232,7 +232,7 @@ export function getOpenAIConfig(
   if (useOpenRouter || isVercel) {
     configOptions.defaultHeaders = Object.assign(
       {
-        'HTTP-Referer': 'https://librechat.ai',
+        'HTTP-Referer': 'https://helmies.studio',
         'X-Title': 'LibreChat',
         'X-OpenRouter-Title': 'LibreChat',
         'X-OpenRouter-Categories': 'general-chat,personal-agent',

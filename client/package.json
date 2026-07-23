@@ -1,5 +1,5 @@
 {
-  "name": "@librechat/frontend",
+  "name": "@Helmies Studio/frontend",
   "version": "v0.8.7",
   "description": "",
   "type": "module",
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danny-avila/LibreChat.git"
+    "url": "git+https://github.com/danny-avila/Helmies Studio.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danny-avila/LibreChat/issues"
+    "url": "https://github.com/danny-avila/Helmies Studio/issues"
   },
-  "homepage": "https://librechat.ai",
+  "homepage": "https://Helmies Studio.ai",
   "dependencies": {
     "@ariakit/react": "^0.4.29",
     "@ariakit/react-components": "^0.1.2",
@@ -36,7 +36,7 @@
     "@dicebear/core": "^9.4.1",
     "@headlessui/react": "^2.1.2",
     "@hyperdx/browser": "^0.24.0",
-    "@librechat/client": "*",
+    "@Helmies Studio/client": "*",
     "@marsidev/react-turnstile": "^1.1.0",
     "@mcp-ui/client": "^5.7.0",
     "@monaco-editor/react": "^4.7.0",
@@ -78,7 +78,7 @@
     "input-otp": "^1.4.2",
     "jotai": "^2.12.5",
     "js-cookie": "^3.0.5",
-    "librechat-data-provider": "*",
+    "Helmies Studio-data-provider": "*",
     "lodash": "^4.17.23",
     "lucide-react": "^0.394.0",
     "match-sorter": "^8.1.0",

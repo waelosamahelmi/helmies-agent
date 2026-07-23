@@ -1,13 +1,13 @@
 import path from 'path';
 import crypto from 'crypto';
 import { Types } from 'mongoose';
-import { logger, tenantStorage } from '@librechat/data-schemas';
+import { logger, tenantStorage } from '@HelmiesStudio/data-schemas';
 import {
   ResourceType,
   PrincipalType,
   AccessRoleIds,
   SKILL_SYNC_DEFAULT_DISCOVERY_DEPTH,
-} from 'librechat-data-provider';
+} from 'HelmiesStudio-data-provider';
 import type {
   ISkill,
   ISkillFile,
@@ -20,8 +20,8 @@ import type {
   SkillSyncProvider,
   SkillSyncCredentialSummary,
   SkillSyncStatusInput,
-} from '@librechat/data-schemas';
-import type { SkillSyncConfig, SkillSyncGitHubSourceConfig } from 'librechat-data-provider';
+} from '@HelmiesStudio/data-schemas';
+import type { SkillSyncConfig, SkillSyncGitHubSourceConfig } from 'HelmiesStudio-data-provider';
 import { DEFAULT_SKILL_IMPORT_LIMITS } from '../limits';
 import { parseSkillMarkdown } from '../parse';
 
@@ -468,7 +468,7 @@ function buildGitHubHeaders(token: string): HeadersInit {
     Accept: 'application/vnd.github+json',
     Authorization: `Bearer ${token}`,
     'X-GitHub-Api-Version': '2022-11-28',
-    'User-Agent': 'LibreChat-Skill-Sync',
+    'User-Agent': 'HelmiesStudio-Skill-Sync',
   };
 }
 

@@ -96,7 +96,7 @@ async function sendPrewarmRequest(req: ServerRequest, conversationId: string): P
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'User-Agent': 'LibreChat/1.0',
+      'User-Agent': 'HelmiesStudio/1.0',
       ...authHeaders,
     },
     body: JSON.stringify({ lang: 'bash', code: 'true', runtime_session_hint: conversationId }),

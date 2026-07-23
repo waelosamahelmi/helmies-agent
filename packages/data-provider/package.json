@@ -1,7 +1,7 @@
 {
-  "name": "librechat-data-provider",
+  "name": "Helmies Studio-data-provider",
   "version": "0.8.509",
-  "description": "data services for librechat apps",
+  "description": "data services for Helmies Studio apps",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "./dist/types/index.d.ts",
@@ -34,14 +34,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danny-avila/LibreChat"
+    "url": "https://github.com/danny-avila/Helmies Studio"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danny-avila/LibreChat/issues"
+    "url": "https://github.com/danny-avila/Helmies Studio/issues"
   },
-  "homepage": "https://librechat.ai",
+  "homepage": "https://Helmies Studio.ai",
   "dependencies": {
     "axios": "^1.16.0",
     "dayjs": "^1.11.13",

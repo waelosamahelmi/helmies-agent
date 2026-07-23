@@ -1,5 +1,5 @@
 {
-  "name": "LibreChat",
+  "name": "Helmies Studio",
   "version": "v0.8.7",
   "description": "",
   "packageManager": "npm@11.13.0",
@@ -113,14 +113,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danny-avila/LibreChat.git"
+    "url": "git+https://github.com/danny-avila/Helmies Studio.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danny-avila/LibreChat/issues"
+    "url": "https://github.com/danny-avila/Helmies Studio/issues"
   },
-  "homepage": "https://librechat.ai/",
+  "homepage": "https://Helmies Studio.ai/",
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@eslint/compat": "^1.2.6",

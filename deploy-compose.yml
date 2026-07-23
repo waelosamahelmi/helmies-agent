@@ -4,8 +4,8 @@ services:
     #   context: .
     #   dockerfile: Dockerfile.multi
     #   target: api-build
-    image: registry.librechat.ai/danny-avila/librechat-dev-api:latest
-    container_name: LibreChat-API
+    image: registry.Helmies Studio.ai/danny-avila/Helmies Studio-dev-api:latest
+    container_name: Helmies Studio-API
     ports:
       - 3080:3080
     depends_on:
@@ -19,7 +19,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - NODE_ENV=production
-      - MONGO_URI=mongodb://mongodb:27017/LibreChat
+      - MONGO_URI=mongodb://mongodb:27017/Helmies Studio
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
@@ -33,15 +33,15 @@ services:
       - ADMIN_PANEL_URL=${ADMIN_PANEL_URL:-http://admin.localhost}
     volumes:
       - type: bind
-        source: ./librechat.yaml
-        target: /app/librechat.yaml
+        source: ./Helmies Studio.yaml
+        target: /app/Helmies Studio.yaml
       - ./images:/app/client/public/images
       - ./uploads:/app/uploads
       - ./logs:/app/api/logs
       - ./skill:/app/skill
 
   admin-panel:
-    image: registry.librechat.ai/clickhouse/librechat-admin-panel:latest
+    image: registry.Helmies Studio.ai/clickhouse/Helmies Studio-admin-panel:latest
     container_name: admin-panel
     depends_on:
       - api
@@ -57,7 +57,7 @@ services:
 
   client:
     image: nginx:1.27.0-alpine
-    container_name: LibreChat-NGINX
+    container_name: Helmies Studio-NGINX
     ports:
       - 80:80
       - 443:443
@@ -99,7 +99,7 @@ services:
     volumes:
       - pgdata2:/var/lib/postgresql/data
   rag_api:
-    image: registry.librechat.ai/danny-avila/librechat-rag-api-dev-lite:latest
+    image: registry.Helmies Studio.ai/danny-avila/Helmies Studio-rag-api-dev-lite:latest
     environment:
       - DB_HOST=vectordb
       - RAG_PORT=${RAG_PORT:-8000}

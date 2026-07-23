@@ -6,8 +6,8 @@ const {
   getTenantId,
   DEFAULT_SESSION_EXPIRY,
   DEFAULT_REFRESH_TOKEN_EXPIRY,
-} = require('@librechat/data-schemas');
-const { ErrorTypes, SystemRoles, errorsToString } = require('librechat-data-provider');
+} = require('@Helmies Studio/data-schemas');
+const { ErrorTypes, SystemRoles, errorsToString } = require('Helmies Studio-data-provider');
 const {
   math,
   isEnabled,
@@ -19,7 +19,7 @@ const {
   isEmailDomainAllowed,
   shouldUseSecureCookie,
   resolveAppConfigForUser,
-} = require('@librechat/api');
+} = require('@Helmies Studio/api');
 const {
   findUser,
   findToken,
@@ -227,7 +227,7 @@ const sendVerificationEmail = async (user) => {
     email,
     subject: 'Verify your email',
     payload: {
-      appName: process.env.APP_TITLE || 'LibreChat',
+      appName: process.env.APP_TITLE || 'Helmies Studio',
       name: user.name || user.username || email,
       verificationLink: verificationLink,
       year: new Date().getFullYear(),
@@ -492,7 +492,7 @@ const requestPasswordReset = async (req) => {
       email: user.email,
       subject: 'Password Reset Request',
       payload: {
-        appName: process.env.APP_TITLE || 'LibreChat',
+        appName: process.env.APP_TITLE || 'Helmies Studio',
         name: user.name || user.username || user.email,
         link: link,
         year: new Date().getFullYear(),
@@ -543,7 +543,7 @@ const resetPassword = async (userId, token, password) => {
       email: user.email,
       subject: 'Password Reset Successfully',
       payload: {
-        appName: process.env.APP_TITLE || 'LibreChat',
+        appName: process.env.APP_TITLE || 'Helmies Studio',
         name: user.name || user.username || user.email,
         year: new Date().getFullYear(),
       },
@@ -559,7 +559,7 @@ const resetPassword = async (userId, token, password) => {
 /**
  * Reads the previously issued CloudFront cookie scope used for stale cookie cleanup.
  * @param {ServerRequest | null} [req=null]
- * @returns {import('@librechat/api').CloudFrontCookieScope | null}
+ * @returns {import('@Helmies Studio/api').CloudFrontCookieScope | null}
  */
 const getPreviousCloudFrontScope = (req) =>
   parseCloudFrontCookieScope(req?.cookies?.[CLOUDFRONT_SCOPE_COOKIE]);
@@ -590,7 +590,7 @@ const shouldLogCloudFrontAuthCookieSkip = (reason) => reason !== 'cloudfront_dis
  * @param {ServerRequest | null} req
  * @param {ServerResponse} res
  * @param {Partial<IUser> | null} user
- * @param {import('@librechat/api').CloudFrontCookieScope & { orgId?: string }} [options={}]
+ * @param {import('@Helmies Studio/api').CloudFrontCookieScope & { orgId?: string }} [options={}]
  * @returns {boolean}
  */
 const setCloudFrontAuthCookies = (req, res, user, options = {}) => {
@@ -677,7 +677,7 @@ const setAuthTokens = async (userId, res, _session = null, req = null) => {
       secure: shouldUseSecureCookie(),
       sameSite: 'strict',
     });
-    res.cookie('token_provider', 'librechat', {
+    res.cookie('token_provider', 'Helmies Studio', {
       expires: new Date(refreshTokenExpires),
       httpOnly: true,
       secure: shouldUseSecureCookie(),
@@ -875,7 +875,7 @@ const resendVerificationEmail = async (req) => {
       email: user.email,
       subject: 'Verify your email',
       payload: {
-        appName: process.env.APP_TITLE || 'LibreChat',
+        appName: process.env.APP_TITLE || 'Helmies Studio',
         name: user.name || user.username || user.email,
         verificationLink: verificationLink,
         year: new Date().getFullYear(),
