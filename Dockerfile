@@ -50,7 +50,7 @@ RUN \
     cd /app/packages/api && npm run build && \
     cd /app/packages/client && npm run build && \
     # React client build with configurable memory
-    cd /app && NODE_OPTIONS="--max-old-space-size=${NODE_MAX_OLD_SPACE_SIZE}" npm run frontend; \
+    cd /app && NODE_OPTIONS="--max-old-space-size=${NODE_MAX_OLD_SPACE_SIZE}" npm run frontend && \
     npm cache clean --force
 
 # Optional build metadata surfaced in Settings -> About for support triage.
