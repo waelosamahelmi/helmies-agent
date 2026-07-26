@@ -39,8 +39,7 @@ RUN \
     npm config set fetch-retry-maxtimeout 600000 ; \
     npm config set fetch-retries 5 ; \
     npm config set fetch-retry-mintimeout 15000 ; \
-    npm install --no-audit --legacy-peer-deps --include=optional && \
-    npm install --no-audit --legacy-peer-deps --include=optional @react-spring/web react-window @react-spring/core @react-spring/animated @react-spring/types
+    npm install --no-audit --legacy-peer-deps --include=optional
 
 COPY --chown=node:node . .
 
