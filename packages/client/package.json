@@ -26,6 +26,10 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@react-spring/web": "^10.0.1",
+    "react-window": "^1.8.10"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "b:clean": "bun run rimraf dist",
