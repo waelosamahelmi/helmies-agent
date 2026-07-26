@@ -136,7 +136,8 @@
     "@opentelemetry/resources": "^2.6.1",
     "@opentelemetry/sdk-node": "^0.218.0",
     "@opentelemetry/semantic-conventions": "^1.39.0",
-    "@react-spring/web": "^10.0.1",
+    "@react-spring/web": "^10.1.2",
+    "react-window": "^2.3.0",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
