@@ -182,6 +182,8 @@ export default defineConfig(({ command }) => ({
       'vite-plugin-node-polyfills/shims/buffer',
       'vite-plugin-node-polyfills/shims/process',
       'vite-plugin-node-polyfills/shims/global',
+      '@react-spring/web',
+      'react-window',
     ],
   },
   publicDir: command === 'serve' ? './public' : false,
