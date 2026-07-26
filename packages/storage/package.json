@@ -18,5 +18,9 @@
   },
   "devDependencies": {
     "typescript": "^5.7.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./ingestion-pipeline": "./src/ingestion-pipeline.ts"
   }
 }

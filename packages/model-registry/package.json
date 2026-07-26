@@ -16,5 +16,11 @@
   },
   "devDependencies": {
     "typescript": "^5.7.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./adapters": "./src/adapters/index.ts",
+    "./circuit-breaker": "./src/circuit-breaker.ts",
+    "./quality-engine": "./src/quality-engine.ts"
   }
 }
