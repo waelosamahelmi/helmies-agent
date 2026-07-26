@@ -1,0 +1,21 @@
+{
+  "name": "@helmies/telemetry",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Helmies Studio Telemetry - structured logging, metrics, tracing",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@helmies/contracts": "*",
+    "@opentelemetry/api": "^1.9.0",
+    "winston": "^3.11.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

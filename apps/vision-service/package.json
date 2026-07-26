@@ -1,0 +1,25 @@
+{
+  "name": "@helmies/vision-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Helmies Studio Vision service for image/reference analysis",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@helmies/contracts": "*",
+    "@helmies/shared-config": "*",
+    "sharp": "^0.35.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "jest": "^29.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

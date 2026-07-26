@@ -1,0 +1,1063 @@
+// Helmies Studio — Shared Prisma Schema
+// This schema extends the existing helmies-studio schema with new models
+// from the Master Merge Specification.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["public", "auth"]
+}
+
+// ============================================================
+// EXISTING MODELS (preserved from helmies-studio)
+// ============================================================
+
+model User {
+  id            String             @id @default(cuid())
+  name          String?
+  email         String             @unique
+  emailVerified DateTime?
+  image         String?
+  role          String             @default("user")
+  credits       Int                @default(100)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  subscriptions Subscription[]
+  generations   Generation[]
+  transactions  CreditTransaction[]
+  agentRuns     AgentRun[]
+  workflows     Workflow[]
+  memories      ProjectMemory[]
+  auditLogs     AuditLog[]
+  apiKeys       ApiKey[]
+  rateLimits    RateLimit[]
+
+  // New relations
+  wallet        CreditWallet?
+  ledgers       CreditLedger[]
+  reservations  CreditReservation[]
+  generationJobs GenerationJob[]
+  projects      Project[]
+  assets        Asset[]
+  brandKits     BrandKit[]
+  canvasDocs    CanvasDocument[]
+  directorPipelines DirectorPipeline[]
+  promoRedemptions PromoRedemption[]
+  identityLink  IdentityLink?
+  personas      Persona[]
+  stylePresets  StylePreset[]
+
+  @@schema("public")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@schema("public")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@schema("public")
+}
+
+model Subscription {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  stripeCustomerId      String?   @unique
+  stripeSubscriptionId  String?   @unique
+  stripePriceId         String?
+  stripeCurrentPeriodEnd DateTime?
+  plan                  String    @default("free")
+  status                String    @default("active")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model Generation {
+  id            String    @id @default(cuid())
+  userId        String
+  tool          String
+  model         String
+  prompt        String    @db.Text
+  params        Json?
+  outputUrl     String?   @db.Text
+  status        String    @default("pending")
+  creditsUsed   Int       @default(1)
+  providerCost  Float?    @default(0)
+  error         String?   @db.Text
+  requestId     String?
+  workflowId    String?
+  workflowStepId String?
+  createdAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model CreditTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Int
+  type        String
+  description String?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model AgentRun {
+  id               String   @id @default(cuid())
+  userId           String
+  agentType        String
+  task             String   @db.Text
+  status           String   @default("pending")
+  creditsEstimated Int      @default(0)
+  creditsUsed      Int      @default(0)
+  steps            Json?
+  result           Json?
+  error            String?  @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model Workflow {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  steps       Json
+  status      String   @default("draft")
+  isTemplate  Boolean  @default(false)
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  runs        WorkflowRun[]
+
+  @@schema("public")
+}
+
+model WorkflowRun {
+  id          String   @id @default(cuid())
+  workflowId  String
+  userId      String
+  status      String   @default("pending")
+  inputs      Json?
+  outputs     Json?
+  error       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model ProjectMemory {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  name      String
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model ProviderConfig {
+  id       String  @id @default(cuid())
+  name     String  @unique
+  type     String
+  apiKey   String  @db.Text
+  baseUrl  String?
+  isActive Boolean @default(true)
+  markup   Float   @default(2.5)
+  config   Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model ModelPricing {
+  id           String  @id @default(cuid())
+  modelId      String  @unique
+  modelType    String
+  providerName String
+  providerCost Float   @default(0)
+  creditsCost  Int     @default(1)
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model FeatureFlag {
+  id          String  @id @default(cuid())
+  key         String  @unique
+  name        String
+  description String?
+  enabled     Boolean @default(false)
+  config      Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model ApiKey {
+  id         String   @id @default(cuid())
+  userId     String
+  name       String
+  keyHash    String   @unique
+  keyPrefix  String
+  lastUsedAt DateTime?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  ip         String?
+  userAgent  String?  @db.Text
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@schema("public")
+}
+
+model RateLimit {
+  id          String   @id @default(cuid())
+  userId      String
+  endpoint    String
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, endpoint])
+  @@schema("public")
+}
+
+model Refund {
+  id           String   @id @default(cuid())
+  userId       String
+  generationId String
+  amount       Int
+  reason       String?
+  status       String   @default("pending")
+  processedAt  DateTime?
+  createdAt    DateTime @default(now())
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 2: Identity Bridge
+// ============================================================
+
+model IdentityLink {
+  id             String   @id @default(cuid())
+  platformUserId String   @unique
+  agentUserId    String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [platformUserId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 3: Wallet V2
+// ============================================================
+
+model CreditWallet {
+  userId           String   @id
+  available        Int      @default(0)
+  reserved         Int      @default(0)
+  lifetimeCredited BigInt   @default(0)
+  lifetimeDebited  BigInt   @default(0)
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model CreditLedger {
+  id            String   @id @default(cuid())
+  userId        String
+  delta         Int
+  balanceAfter  Int
+  reservedAfter Int
+  type          String
+  description   String?
+  referenceType String?
+  referenceId   String?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@schema("public")
+}
+
+model CreditReservation {
+  id        String    @id @default(cuid())
+  userId    String
+  jobId     String?   @unique
+  amount    Int
+  status    String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  settledAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 4: Model Registry
+// ============================================================
+
+model AiProvider {
+  id                  String    @id @default(cuid())
+  key                 String    @unique
+  name                String
+  enabled             Boolean   @default(true)
+  baseUrl             String?
+  region              String?
+  secretRef           String?
+  healthStatus        String    @default("unknown")
+  defaultMarkup       Decimal?  @db.Decimal(10, 4)
+  defaultTargetMargin Decimal?  @db.Decimal(10, 4)
+  config              Json?
+  metadata            Json?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  models              AiModel[]
+
+  @@schema("public")
+}
+
+model AiModel {
+  id               String    @id @default(cuid())
+  providerId       String
+  modelKey         String
+  displayName      String
+  capability       String
+  category         String
+  enabled          Boolean   @default(true)
+  hidden           Boolean   @default(false)
+  beta             Boolean   @default(false)
+  priority         Int       @default(100)
+  inputSchema      Json
+  uiSchema         Json?
+  outputSchema     Json?
+  limits           Json?
+  metadata         Json?
+  qualityScore     Decimal?  @db.Decimal(8, 4)
+  speedScore       Decimal?  @db.Decimal(8, 4)
+  reliabilityScore Decimal?  @db.Decimal(8, 4)
+  promptGuideKey   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  provider         AiProvider @relation(fields: [providerId], references: [id])
+  prices           AiModelPrice[]
+  routes           ModelRoute[]
+
+  @@unique([providerId, modelKey, capability])
+  @@index([capability, enabled])
+  @@schema("public")
+}
+
+model AiModelPrice {
+  id             String    @id @default(cuid())
+  modelId        String
+  strategy       String
+  currency       String    @default("USD")
+  params         Json
+  effectiveFrom  DateTime  @default(now())
+  effectiveUntil DateTime?
+  source         String?
+  sourceUrl      String?
+  notes          String?
+  createdAt      DateTime  @default(now())
+  model          AiModel   @relation(fields: [modelId], references: [id], onDelete: Cascade)
+
+  @@index([modelId, effectiveFrom])
+  @@schema("public")
+}
+
+model ModelRoute {
+  id         String   @id @default(cuid())
+  routeKey   String
+  modelId    String
+  enabled    Boolean  @default(true)
+  priority   Int      @default(100)
+  conditions Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  model      AiModel  @relation(fields: [modelId], references: [id], onDelete: Cascade)
+
+  @@unique([routeKey, modelId])
+  @@index([routeKey, enabled, priority])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 6: Job Engine
+// ============================================================
+
+model GenerationJob {
+  id                  String    @id @default(cuid())
+  userId              String
+  parentJobId         String?
+  projectId           String?
+  agentRunId          String?
+  directorPipelineId  String?
+  directorShotId      String?
+  capability          String
+  routeKey            String?
+  modelId             String?
+  providerId          String?
+  status              String
+  idempotencyKey      String
+  normalizedRequest   Json
+  providerRequest     Json?
+  providerResponse    Json?
+  quoteSnapshot       Json?
+  pricingSnapshot     Json?
+  estimatedCredits    Int       @default(0)
+  reservedCredits     Int       @default(0)
+  actualCredits       Int       @default(0)
+  providerCost        Decimal?  @db.Decimal(18, 8)
+  retailValue         Decimal?  @db.Decimal(18, 8)
+  providerRequestId   String?
+  errorCode           String?
+  safeError           String?
+  retryCount          Int       @default(0)
+  queuedAt            DateTime?
+  startedAt           DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events              GenerationJobEvent[]
+  assets              Asset[]
+
+  @@unique([userId, idempotencyKey])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+  @@schema("public")
+}
+
+model GenerationJobEvent {
+  id        String    @id @default(cuid())
+  jobId     String
+  event     String
+  stage     String?
+  progress  Decimal?  @db.Decimal(8, 4)
+  message   String?
+  data      Json?
+  createdAt DateTime  @default(now())
+  job       GenerationJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId, createdAt])
+  @@schema("public")
+}
+
+model UsageEvent {
+  id              String    @id @default(cuid())
+  userId          String
+  jobId           String?
+  modelId         String?
+  providerId      String?
+  capability      String
+  inputTokens     BigInt?
+  outputTokens    BigInt?
+  inputCharacters BigInt?
+  audioSeconds    Decimal?  @db.Decimal(14, 3)
+  videoSeconds    Decimal?  @db.Decimal(14, 3)
+  imageCount      Int?
+  providerCost    Decimal   @db.Decimal(18, 8)
+  retailValue     Decimal   @db.Decimal(18, 8)
+  creditsDebited  Int
+  pricingSnapshot Json
+  createdAt       DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([modelId, createdAt])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 5: Pricing Plans & Promos
+// ============================================================
+
+model PricingPlan {
+  id             String   @id
+  slug           String   @unique
+  name           String
+  description    String?
+  monthlyCredits Int
+  active         Boolean  @default(true)
+  public         Boolean  @default(true)
+  popular        Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  featureConfig  Json
+  limits         Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  prices         PlanPrice[]
+
+  @@schema("public")
+}
+
+model PlanPrice {
+  id             String    @id @default(cuid())
+  planId         String
+  billingPeriod  String
+  currency       String
+  amount         Decimal   @db.Decimal(12, 2)
+  stripePriceId  String?
+  active         Boolean   @default(true)
+  effectiveFrom  DateTime  @default(now())
+  effectiveUntil DateTime?
+  plan           PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([planId, active])
+  @@schema("public")
+}
+
+model CreditPack {
+  id            String   @id @default(cuid())
+  name          String
+  credits       Int
+  currency      String
+  amount        Decimal  @db.Decimal(12, 2)
+  stripePriceId String?
+  active        Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model PromoCode {
+  id                   String    @id @default(cuid())
+  code                 String    @unique
+  type                 String
+  value                Decimal   @db.Decimal(12, 4)
+  currency             String?
+  appliesToPlans       Json?
+  appliesToCreditPacks Json?
+  newCustomersOnly     Boolean   @default(false)
+  stackable            Boolean   @default(false)
+  minimumSpend         Decimal?  @db.Decimal(12, 2)
+  maxRedemptions       Int?
+  maxPerUser           Int?
+  startsAt             DateTime?
+  endsAt               DateTime?
+  active               Boolean   @default(true)
+  stripePromotionCodeId String?
+  metadata             Json?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  redemptions          PromoRedemption[]
+
+  @@schema("public")
+}
+
+model PromoRedemption {
+  id             String    @id @default(cuid())
+  promoCodeId    String
+  userId         String
+  orderReference String?
+  discountAmount Decimal?  @db.Decimal(12, 2)
+  bonusCredits   Int?
+  createdAt      DateTime  @default(now())
+  promoCode      PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([promoCodeId, userId])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 8-10: Projects, Assets, Brand Kits
+// ============================================================
+
+model Project {
+  id          String    @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  brandKitId  String?
+  settings    Json?
+  archivedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets      Asset[]
+
+  @@index([userId, updatedAt])
+  @@schema("public")
+}
+
+model Asset {
+  id              String    @id @default(cuid())
+  userId          String
+  projectId       String?
+  type            String
+  source          String
+  storageKey      String
+  mimeType        String
+  width           Int?
+  height          Int?
+  durationMs      Int?
+  bytes           BigInt?
+  generationJobId String?
+  parentAssetId   String?
+  metadata        Json?
+  analysis        Json?
+  favorite        Boolean   @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project         Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  generationJob   GenerationJob? @relation(fields: [generationJobId], references: [id], onDelete: SetNull)
+  brandAssets     BrandAsset[]
+  canvasPreviews  CanvasDocument[]  @relation("CanvasPreview")
+  canvasVersions  CanvasVersion[]   @relation("CanvasVersionPreview")
+
+  @@index([userId, createdAt])
+  @@index([projectId, createdAt])
+  @@schema("public")
+}
+
+model AssetRelation {
+  id           String @id @default(cuid())
+  assetId      String
+  relatedAssetId String
+  relationType String
+  createdAt    DateTime @default(now())
+
+  @@unique([assetId, relatedAssetId, relationType])
+  @@schema("public")
+}
+
+model BrandKit {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  description     String?
+  config          Json
+  fingerprint     Json?
+  enforcementMode String   @default("suggest")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets          BrandAsset[]
+
+  @@index([userId, updatedAt])
+  @@schema("public")
+}
+
+model BrandAsset {
+  id         String   @id @default(cuid())
+  brandKitId String
+  assetId    String
+  role       String
+  label      String?
+  order      Int      @default(0)
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  brandKit   BrandKit @relation(fields: [brandKitId], references: [id], onDelete: Cascade)
+  asset      Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 8: Canvas
+// ============================================================
+
+model CanvasDocument {
+  id             String   @id @default(cuid())
+  userId         String
+  projectId      String?
+  name           String
+  width          Int
+  height         Int
+  document       Json
+  previewAssetId String?
+  currentVersion Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  previewAsset   Asset?   @relation("CanvasPreview", fields: [previewAssetId], references: [id], onDelete: SetNull)
+  versions       CanvasVersion[]
+
+  @@index([userId, updatedAt])
+  @@schema("public")
+}
+
+model CanvasVersion {
+  id             String   @id @default(cuid())
+  canvasId       String
+  version        Int
+  document       Json
+  previewAssetId String?
+  createdAt      DateTime @default(now())
+  canvas         CanvasDocument @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+  previewAsset   Asset?   @relation("CanvasVersionPreview", fields: [previewAssetId], references: [id], onDelete: SetNull)
+
+  @@unique([canvasId, version])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 9: Vision
+// ============================================================
+
+model VisualAnalysis {
+  id        String   @id @default(cuid())
+  assetId   String
+  routeKey  String
+  modelId   String?
+  result    Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@index([assetId, createdAt])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE: Prompt Intelligence
+// ============================================================
+
+model PromptGuide {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  name          String
+  category      String
+  activeVersion Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  versions      PromptGuideVersion[]
+
+  @@schema("public")
+}
+
+model PromptGuideVersion {
+  id        String   @id @default(cuid())
+  guideId   String
+  version   Int
+  content   String   @db.Text
+  config    Json?
+  createdBy String?
+  createdAt DateTime @default(now())
+  guide     PromptGuide @relation(fields: [guideId], references: [id], onDelete: Cascade)
+
+  @@unique([guideId, version])
+  @@schema("public")
+}
+
+model PromptCompilation {
+  id        String   @id @default(cuid())
+  jobId     String?
+  userId    String?
+  guideVersions Json?
+  source         String?
+  normalizedIntent Json?
+  brandContextSummary Json?
+  canvasContextSummary Json?
+  finalPrompt      String? @db.Text
+  negativePrompt   String? @db.Text
+  metadata         Json?
+  createdAt  DateTime @default(now())
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 14: Director
+// ============================================================
+
+model DirectorPipeline {
+  id               String    @id @default(cuid())
+  userId           String
+  projectId        String?
+  title            String
+  type             String
+  status           String
+  productionPlan   Json?
+  quoteSnapshot    Json?
+  estimatedCredits Int       @default(0)
+  reservedCredits  Int       @default(0)
+  actualCredits    Int       @default(0)
+  finalAssetId     String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shots            DirectorShot[]
+
+  @@index([userId, updatedAt])
+  @@schema("public")
+}
+
+model DirectorShot {
+  id             String   @id @default(cuid())
+  pipelineId     String
+  index          Int
+  status         String
+  shotPlan       Json?
+  imageAssetId   String?
+  videoAssetId   String?
+  audioAssetId   String?
+  imageJobId     String?
+  videoJobId     String?
+  audioJobId     String?
+  quality        Json?
+  promptVersions Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  pipeline       DirectorPipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  versions       DirectorShotVersion[]
+
+  @@index([pipelineId, index])
+  @@schema("public")
+}
+
+model DirectorShotVersion {
+  id        String   @id @default(cuid())
+  shotId    String
+  version   Int
+  shotPlan  Json
+  createdAt DateTime @default(now())
+  shot      DirectorShot @relation(fields: [shotId], references: [id], onDelete: Cascade)
+
+  @@unique([shotId, version])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 12: Influencer — Persona (Section 54)
+// ============================================================
+
+model Persona {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  description     String?
+  faceDescription String?  @db.Text
+  bodyDescription String?  @db.Text
+  style           String?
+  wardrobe        String?
+  personality     String?  @db.Text
+  brandKitId      String?
+  referenceAssetIds Json?
+  contentPresets  Json?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE: Style Preset (Section 162 — ProjectMemory migration)
+// ============================================================
+
+model StylePreset {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  type        String
+  data        Json
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE: Quality & Provider Health
+// ============================================================
+
+model QualityEvaluation {
+  id                  String   @id @default(cuid())
+  jobId               String?
+  assetId             String?
+  evaluatorRoute      String?
+  evaluatorModel      String?
+  technical           Decimal? @db.Decimal(8, 4)
+  promptAlignment     Decimal? @db.Decimal(8, 4)
+  referenceConsistency Decimal? @db.Decimal(8, 4)
+  brandConsistency    Decimal? @db.Decimal(8, 4)
+  textAccuracy        Decimal? @db.Decimal(8, 4)
+  result              Json?
+  createdAt           DateTime @default(now())
+
+  @@schema("public")
+}
+
+model ProviderIncident {
+  id         String    @id @default(cuid())
+  providerId String
+  modelId    String?
+  startAt    DateTime  @default(now())
+  endAt      DateTime?
+  status     String
+  errorRate  Decimal?  @db.Decimal(8, 4)
+  detail     Json?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 15: Admin CMS & Announcements
+// ============================================================
+
+model CmsEntry {
+  id        String   @id @default(cuid())
+  namespace String
+  key       String
+  locale    String   @default("en")
+  value     Json
+  published Boolean  @default(true)
+  version   Int      @default(1)
+  updatedBy String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([namespace, key, locale])
+  @@schema("public")
+}
+
+model CmsRevision {
+  id        String   @id @default(cuid())
+  entryId   String
+  version   Int
+  value     Json
+  updatedBy String?
+  createdAt DateTime @default(now())
+
+  @@schema("public")
+}
+
+model SiteAnnouncement {
+  id          String    @id @default(cuid())
+  message     String
+  style       String
+  linkLabel   String?
+  linkUrl     String?
+  enabled     Boolean   @default(false)
+  dismissible Boolean   @default(true)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  audiences   Json?
+  locales     Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE 15: Admin Advisor
+// ============================================================
+
+model AdminAdvisorScenario {
+  id             String   @id @default(cuid())
+  adminId        String?
+  question       String?
+  inputAssumptions Json
+  calculatorOutput Json
+  llmExplanation String?  @db.Text
+  createdAt      DateTime @default(now())
+
+  @@schema("public")
+}
+
+// ============================================================
+// PHASE: Daily Aggregations
+// ============================================================
+
+model ProviderModelDaily {
+  id         String   @id @default(cuid())
+  date       DateTime
+  providerId String
+  modelId    String
+  jobs       Int      @default(0)
+  success    Int      @default(0)
+  failed     Int      @default(0)
+  providerCost Decimal @db.Decimal(18, 8)
+  retailValue  Decimal @db.Decimal(18, 8)
+  credits    Int      @default(0)
+  p50Latency Int?
+  p95Latency Int?
+
+  @@unique([date, providerId, modelId])
+  @@schema("public")
+}

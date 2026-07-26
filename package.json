@@ -6,7 +6,11 @@
   "workspaces": [
     "api",
     "client",
-    "packages/*"
+    "packages/*",
+    "apps/platform-api",
+    "apps/worker",
+    "apps/director-service",
+    "apps/vision-service"
   ],
   "scripts": {
     "update": "node config/update.js",

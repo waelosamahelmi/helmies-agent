@@ -1,0 +1,19 @@
+{
+  "name": "@helmies/shared-config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Helmies Studio shared configuration - env vars, constants, feature flags",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

@@ -186,6 +186,119 @@ export const router = createBrowserRouter(
                 </MarketplaceProvider>
               ),
             },
+            {
+              path: 'studio',
+              lazy: () =>
+                import('~/components/Studio/StudioShell').then((m) => ({
+                  Component: () => (
+                    <m.StudioProvider>
+                      <m.default />
+                    </m.StudioProvider>
+                  ),
+                })),
+              children: [
+                { index: true, element: <Navigate to="agent" replace /> },
+                { path: 'agent', element: <ChatRoute /> },
+                {
+                  path: 'image',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.ImageStudio,
+                    })),
+                },
+                {
+                  path: 'video',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.VideoStudio,
+                    })),
+                },
+                {
+                  path: 'director',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.DirectorDashboard,
+                    })),
+                },
+                {
+                  path: 'audio',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.AudioStudio,
+                    })),
+                },
+                {
+                  path: 'lipsync',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.LipSyncStudio,
+                    })),
+                },
+                {
+                  path: 'recast',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.RecastStudio,
+                    })),
+                },
+                {
+                  path: 'influencer',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.InfluencerStudio,
+                    })),
+                },
+                {
+                  path: 'workflows',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.WorkflowsView,
+                    })),
+                },
+                {
+                  path: 'brands',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.BrandKitsView,
+                    })),
+                },
+                {
+                  path: 'projects',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.ProjectsView,
+                    })),
+                },
+                {
+                  path: 'assets',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.AssetsView,
+                    })),
+                },
+                {
+                  path: 'generations',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.GenerationsView,
+                    })),
+                },
+                {
+                  path: 'credits',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.CreditsView,
+                    })),
+                },
+                {
+                  path: 'admin',
+                  lazy: () =>
+                    import('~/components/Studio/workspaces').then((m) => ({
+                      Component: m.AdminDashboard,
+                    })),
+                },
+              ],
+            },
           ],
         },
       ],
