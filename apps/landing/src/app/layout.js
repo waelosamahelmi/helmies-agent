@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import Providers from "@/components/Providers";
 
 export const metadata = {
   metadataBase: new URL("https://studio.helmies.fi"),
@@ -163,10 +162,8 @@ export default function RootLayout({ children }) {
         className="min-h-screen w-full antialiased"
         style={{ background: "#0A0A0F", color: "#F2F2F7" }}
       >
-        <Providers>
-          <AnnouncementBar />
-          {children}
-        </Providers>
+        <AnnouncementBar />
+        {children}
       </body>
     </html>
   );
