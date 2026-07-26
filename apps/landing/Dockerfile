@@ -26,7 +26,6 @@ COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package.json ./
 COPY --from=base /app/next.config.js ./
 COPY --from=base /app/public ./public
-COPY --from=base /app/prisma ./prisma
 
 EXPOSE 3003
 
